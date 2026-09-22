@@ -21,7 +21,7 @@ except Exception as e:
 with st.form("formulario_oficio"):
     num_empleado = st.number_input("1. Número de Empleado:", min_value=1, step=1, format="%d")
     placa_input = st.text_input("2. Placas de la unidad (Ej. HM4036G):").strip().upper()
-    lugar_input = st.text_input("3. ¿Lugar y fecha? (Ej. Mercado, 12 de sept):").strip()
+    lugar_input = st.text_input("3. ¿Lugar y fecha? (Ej. 12 de septiembre Municipio de Zempoala):").strip()
     
     # --- CAJÓN DE OPCIONES PARA EL MOTIVO ---
     opciones_motivo = [
