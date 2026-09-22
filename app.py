@@ -120,7 +120,7 @@ if generar:
                 'Lugar_Fecha': lugar_fecha_completo,  
                 'Motivo': motivo_input, 
                 'Hora': hora_formateada,
-                'Comisionado': str(datos_emp['comisionado']),
+                #'Comisionado': str(datos_emp['comisionado']),
                 'Nombre_Firmante': nombre_firmante,
                 'Cargo_Firmante': cargo_firmante
             }
