@@ -114,7 +114,7 @@ if generar:
             }
             
             try:
-                doc = DocxTemplate('OFICIO COMISIÓN 2026_finalz.docx')
+                doc = DocxTemplate('OFICIO COMISIÓN 2026_finald.docx')
                 doc.render(contexto)
                 
                 bio = io.BytesIO()
