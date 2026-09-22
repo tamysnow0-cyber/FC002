@@ -21,7 +21,7 @@ except Exception as e:
 with st.form("formulario_oficio"):
     num_empleado = st.number_input("1. Número de Empleado:", min_value=1, step=1, format="%d")
     placa_input = st.text_input("2. Placas de la unidad que ocuparás (Ej. HM4036G):").strip().upper()
-    lugar_input = st.text_input("3. ¿fecha y luhar al que asistira? (Ej.18 de septiembre Municipio de Zempoala ):").strip()
+    lugar_input = st.text_input("3. ¿A qué lugar asistirás y en qué fecha? (Ej.12 de septiembre Municipio de Zapotlan):").strip()
     motivo_input = st.text_input("4. ¿Cuál es la finalidad de la comisión? (Ej. entregar correspondencia):").strip()
     hora_salida = st.time_input("5. Selecciona tu hora de salida:")
     
