@@ -21,7 +21,7 @@ except Exception as e:
 with st.form("formulario_oficio"):
     num_empleado = st.number_input("1. Número de Empleado:", min_value=1, step=1, format="%d")
     placa_input = st.text_input("2. Placas de la unidad (Ej. HM4036G):").strip().upper()
-    lugar_input = st.text_input("3. ¿Lugar y fecha? (Ej. 12 de septiembre Municipio de Zempoala):").strip()
+    lugar_input = st.text_input("3. ¿Lugar y fecha? (Ej. Mercado, 12 de sept):").strip()
     
     # --- CAJÓN DE OPCIONES PARA EL MOTIVO ---
     opciones_motivo = [
@@ -31,7 +31,7 @@ with st.form("formulario_oficio"):
         "Asistencia a ruta de Transformación",
         "Cursos para operadores",
         "Asistencia a Mesas de acercamiento a la paz",
-        "Asistencia a Reunión",
+        "Reunión",
         "Dejar correspondencia",
         "Otro (escribir manualmente)"
     ]
@@ -44,6 +44,14 @@ with st.form("formulario_oficio"):
     # ----------------------------------------
     
     hora_salida = st.time_input("5. Hora de salida:")
+    
+    # --- NUEVO: SELECTOR DE FIRMANTE ---
+    opciones_firmante = [
+        "Ing. Sandra Saraí Hernández López",
+        "Dr. José Antonio Pérez Sánchez"
+    ]
+    firmante_seleccion = st.selectbox("6. Selecciona quién autoriza (Firmante):", opciones_firmante)
+    # -----------------------------------
     
     generar = st.form_submit_button("Generar Oficio")
 
@@ -78,6 +86,15 @@ if generar:
             if modelo.endswith('.0'):
                 modelo = modelo[:-2]
                 
+            # --- CONFIGURACIÓN DINÁMICA DEL FIRMANTE ---
+            if firmante_seleccion == "Ing. Sandra Saraí Hernández López":
+                nombre_firmante = "Ing. Sandra Saraí Hernández López"
+                cargo_firmante = "Director de Movilidad e Ingeniería del\nSistema de Transporte Convencional de Hidalgo"
+            else:
+                nombre_firmante = "Dr. José Antonio Pérez Sánchez"
+                cargo_firmante = "Director General del Sistema de Transporte\nConvencional de Hidalgo"
+            # -------------------------------------------
+
             contexto = {
                 'Fecha': fecha_larga, 
                 'Nombre': str(datos_emp['Nombre']),
@@ -91,11 +108,13 @@ if generar:
                 'Lugar_Fecha': lugar_input,
                 'Motivo': motivo_input, 
                 'Hora_Salida': hora_formateada,
-                'Comisionado': palabra_genero
+                'Comisionado': palabra_genero,
+                'Nombre_Firmante': nombre_firmante,
+                'Cargo_Firmante': cargo_firmante
             }
             
             try:
-                doc = DocxTemplate('OFICIO COMISIÓN 2026_finald.docx')
+                doc = DocxTemplate('OFICIO COMISIÓN 2026_finalz.docx')
                 doc.render(contexto)
                 
                 bio = io.BytesIO()
