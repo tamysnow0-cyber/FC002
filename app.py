@@ -10,7 +10,7 @@ st.write("Llena los siguientes datos para descargar tu oficio.")
 
 @st.cache_data
 def cargar_datos():
-    return pd.read_excel('Información del empleado_FINALd.xlsx')
+    return pd.read_excel('Información del empleado_FINAL.xlsx')
 
 try:
     df = cargar_datos()
@@ -21,16 +21,24 @@ except Exception as e:
 with st.form("formulario_oficio"):
     num_empleado = st.number_input("1. Número de Empleado:", min_value=1, step=1, format="%d")
     placa_input = st.text_input("2. Placas de la unidad (Ej. HM4036G):").strip().upper()
-    lugar_input = st.text_input("3. ¿Lugar y fecha? (Ej. MUNICIPIO,REGIÓN.LOCALIDAD,ETC):").strip()
+    
+    # --- NUEVO: OPCIÓN DE DURACIÓN DE LA COMISIÓN ---
+    tipo_duracion = st.radio("3. Duración de la comisión:", ["Comisión de 1 día", "Comisión de varios días"])
+    
+    if tipo_duracion == "Comisión de 1 día":
+        lugar_input = st.text_input("¿A qué lugar asistirás y en qué fecha? (Ej. Zempoala, 22 de septiembre):").strip()
+    else:
+        lugar_input = st.text_input("¿A qué lugar asistirás y qué días abarca? (Ej. Zempoala, del 22 al 24 de septiembre):").strip()
+    # -----------------------------------------------
     
     # --- CAJÓN DE OPCIONES PARA EL MOTIVO ---
     opciones_motivo = [
-        "Realizar trámites, levantamiento de información para dictamen técnico",
+        "Realizar trámites y levantamiento de información para dictamen técnico",
         "Elaborar constancias de operación",
         "Reunión con concesionarios",
         "Asistencia a ruta de Transformación",
         "Cursos para operadores",
-        "Asistencia a Mesas de acercamiento a la paz",
+        "Asistencia a Mesa de acercamiento a la paz",
         "Asistencia a Reunión",
         "Dejar correspondencia",
         "Otro (escribir manualmente)"
@@ -45,13 +53,11 @@ with st.form("formulario_oficio"):
     
     hora_salida = st.time_input("5. Hora de salida:")
     
-    # --- NUEVO: SELECTOR DE FIRMANTE ---
     opciones_firmante = [
         "Ing. Sandra Saraí Hernández López",
         "Dr. José Antonio Pérez Sánchez"
     ]
     firmante_seleccion = st.selectbox("6. Selecciona quién autoriza (Firmante):", opciones_firmante)
-    # -----------------------------------
     
     generar = st.form_submit_button("Generar Oficio")
 
@@ -86,14 +92,12 @@ if generar:
             if modelo.endswith('.0'):
                 modelo = modelo[:-2]
                 
-            # --- CONFIGURACIÓN DINÁMICA DEL FIRMANTE ---
             if firmante_seleccion == "Ing. Sandra Saraí Hernández López":
                 nombre_firmante = "Ing. Sandra Saraí Hernández López"
                 cargo_firmante = "Directora de Movilidad e Ingeniería del\nSistema de Transporte Convencional de Hidalgo"
             else:
                 nombre_firmante = "Dr. José Antonio Pérez Sánchez"
                 cargo_firmante = "Director General del Sistema de Transporte\nConvencional de Hidalgo"
-            # -------------------------------------------
 
             contexto = {
                 'Fecha': fecha_larga, 
@@ -105,16 +109,16 @@ if generar:
                 'Unidad': str(datos_veh['Unidad']),
                 'Modelo': modelo,
                 'Placa': str(datos_veh['placa']), 
-                'Lugar_Fecha': lugar_input,
+                'Lugar_Fecha': lugar_input,  # Aquí viaja tanto si es 1 día como si es un rango
                 'Motivo': motivo_input, 
                 'Hora_Salida': hora_formateada,
-                'Comisionado':str(datos_emp['Comisionado']),
+                'Comisionado': palabra_genero,
                 'Nombre_Firmante': nombre_firmante,
                 'Cargo_Firmante': cargo_firmante
             }
             
             try:
-                doc = DocxTemplate('OFICIO COMISIÓN 2026_finald.docx')
+                doc = DocxTemplate('OFICIO COMISIÓN 2026_finalz.docx')
                 doc.render(contexto)
                 
                 bio = io.BytesIO()
