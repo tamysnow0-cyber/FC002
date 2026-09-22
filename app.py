@@ -31,7 +31,7 @@ with st.form("formulario_oficio"):
         "Asistencia a ruta de Transformación",
         "Cursos para operadores",
         "Asistencia a Mesas de acercamiento a la paz",
-        "Reunión",
+        "Asistencia a Reunión",
         "Dejar correspondencia",
         "Otro (escribir manualmente)"
     ]
@@ -71,11 +71,11 @@ if generar:
             datos_veh = vehiculo_data.iloc[0]
             
             # --- DETECTOR DE GÉNERO ---
-            genero_excel = str(datos_emp.get('Género', 'M')).strip().upper()
-            if genero_excel in ['F', 'MUJER', 'FEMENINO']:
-                palabra_genero = "comisionada"
-            else:
-                palabra_genero = "comisionado"
+            #genero_excel = str(datos_emp.get('Género', 'M')).strip().upper()
+            #if genero_excel in ['F', 'MUJER', 'FEMENINO']:
+                #palabra_genero = "comisionada"
+            #else:
+                #palabra_genero = "comisionado"
             
             meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
             ahora = datetime.now()
@@ -89,7 +89,7 @@ if generar:
             # --- CONFIGURACIÓN DINÁMICA DEL FIRMANTE ---
             if firmante_seleccion == "Ing. Sandra Saraí Hernández López":
                 nombre_firmante = "Ing. Sandra Saraí Hernández López"
-                cargo_firmante = "Director de Movilidad e Ingeniería del\nSistema de Transporte Convencional de Hidalgo"
+                cargo_firmante = "Directora de Movilidad e Ingeniería del\nSistema de Transporte Convencional de Hidalgo"
             else:
                 nombre_firmante = "Dr. José Antonio Pérez Sánchez"
                 cargo_firmante = "Director General del Sistema de Transporte\nConvencional de Hidalgo"
@@ -108,7 +108,7 @@ if generar:
                 'Lugar_Fecha': lugar_input,
                 'Motivo': motivo_input, 
                 'Hora_Salida': hora_formateada,
-                'Comisionado': palabra_genero,
+                'Comisionado':str(datos_emp['Comisionado']),
                 'Nombre_Firmante': nombre_firmante,
                 'Cargo_Firmante': cargo_firmante
             }
