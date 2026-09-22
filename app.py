@@ -6,7 +6,7 @@ import io
 
 st.set_page_config(page_title="Generador de Oficios", page_icon="🚗")
 st.title("🚗 Generador Automático de Oficios de Comisión")
-st.write("Llena los siguientes datos para descargar tu oficio de forma inmediata manteniendo el formato oficial.")
+st.write("Llena los siguientes datos para descargar tu oficio.")
 
 @st.cache_data
 def cargar_datos():
@@ -20,22 +20,42 @@ except Exception as e:
 
 with st.form("formulario_oficio"):
     num_empleado = st.number_input("1. Número de Empleado:", min_value=1, step=1, format="%d")
-    placa_input = st.text_input("2. Placas de la unidad que ocuparás (Ej. HM4036G):").strip().upper()
-    lugar_input = st.text_input("3. ¿A qué lugar asistirás y en qué fecha? (Ej.12 de septiembre Municipio de Zapotlan):").strip()
-    motivo_input = st.text_input("4. ¿Cuál es la finalidad de la comisión? (Ej. entregar correspondencia):").strip()
-    hora_salida = st.time_input("5. Selecciona tu hora de salida:")
+    placa_input = st.text_input("2. Placas de la unidad (Ej. HM4036G):").strip().upper()
+    lugar_input = st.text_input("3. ¿Lugar y fecha? (Ej. Mercado, 12 de sept):").strip()
+    
+    # --- CAJÓN DE OPCIONES PARA EL MOTIVO ---
+    opciones_motivo = [
+        "Realizar trámites, levantamiento de información para dictamen técnico",
+        "Elaborar constancias de operación",
+        "Reunión con concesionarios",
+        "Asistencia a ruta de Transformación",
+        "Cursos para operadores",
+        "Asistencia a Mesas de acercamiento a la paz",
+        "Reunión",
+        "Dejar correspondencia",
+        "Otro (escribir manualmente)"
+    ]
+    motivo_seleccion = st.selectbox("4. Selecciona la finalidad de la comisión:", opciones_motivo)
+    
+    if motivo_seleccion == "Otro (escribir manualmente)":
+        motivo_input = st.text_input("Escribe la finalidad de la comisión:").strip()
+    else:
+        motivo_input = motivo_seleccion
+    # ----------------------------------------
+    
+    hora_salida = st.time_input("5. Hora de salida:")
     
     generar = st.form_submit_button("Generar Oficio")
 
 if generar:
     if not num_empleado or not placa_input or not lugar_input or not motivo_input:
-        st.warning("⚠️ Por favor, llena todos los campos antes de generar el oficio.")
+        st.warning("⚠️ Por favor, llena todos los campos.")
     else:
         empleado_data = df[df['No. empleado'] == num_empleado]
         vehiculo_data = df[df['placa'].astype(str).str.upper() == placa_input]
         
         if empleado_data.empty:
-            st.error(f"⚠️ No se encontró el número de empleado {num_empleado}.")
+            st.error(f"⚠️ No se encontró el empleado {num_empleado}.")
         elif vehiculo_data.empty:
             st.error(f"⚠️ No se encontró la placa '{placa_input}'.")
         else:
@@ -82,7 +102,7 @@ if generar:
                 doc.save(bio)
                 nombre_archivo_salida = f"Oficio_{datos_emp['Nombre'].replace(' ', '_')}_{placa_input}.docx"
                 
-                st.success(f"✅ ¡Oficio generado exitosamente para {datos_emp['Nombre']}!")
+                st.success("✅ ¡Oficio generado exitosamente!")
                 st.download_button(
                     label="📥 Descargar Documento Word",
                     data=bio.getvalue(),
@@ -90,4 +110,4 @@ if generar:
                     mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                 )
             except Exception as e:
-                st.error(f"❌ Ocurrió un error al procesar la plantilla: {e}")
+                st.error(f"❌ Ocurrió un error: {e}")
