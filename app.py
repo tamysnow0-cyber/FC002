@@ -117,14 +117,13 @@ if generar:
                 'Unidad': str(datos_veh['Unidad']),
                 'Modelo': modelo,
                 'Placa': str(datos_veh['placa']), 
-                'Lugar_Fecha': lugar_fecha_completo,  # Se arma solo de forma impecable
+                'Lugar_Fecha': lugar_fecha_completo,  
                 'Motivo': motivo_input, 
                 'Hora': hora_formateada,
-                'Comisionado': str(datos_com['Comisionado']),
+                'Comisionado': str(datos_emp['comision']),
                 'Nombre_Firmante': nombre_firmante,
                 'Cargo_Firmante': cargo_firmante
             }
-            
             try:
                 doc = DocxTemplate('OFICIO COMISIÓN 2026_finalz.docx')
                 doc.render(contexto)
