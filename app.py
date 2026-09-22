@@ -23,7 +23,7 @@ with st.form("formulario_oficio"):
     placa_input = st.text_input("2. Placas de la unidad (Ej. HM4036G):").strip().upper()
     
     # --- CAMPOS SEPARADOS DE LUGAR Y FECHAS ---
-    lugar_input = st.text_input("3. ¿A qué municipio o lugar asistirás? (Ej. Zempoala):").strip()
+    lugar_input = st.text_input("3. ¿A qué municipio o lugar asistirás? (Ej. MUNICIPIO, ESTADO, LUGAR,ETC):").strip()
     
     col1, col2 = st.columns(2)
     with col1:
