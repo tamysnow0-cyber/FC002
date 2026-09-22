@@ -119,7 +119,7 @@ if generar:
                 'Placa': str(datos_veh['placa']), 
                 'Lugar_Fecha': lugar_fecha_completo,  
                 'Motivo': motivo_input, 
-                'Hora': hora_formateada,
+                'Hora_Salida': hora_formateada,
                 #'Comisionado': str(datos_emp['comisionado']),
                 'Nombre_Firmante': nombre_firmante,
                 'Cargo_Firmante': cargo_firmante
