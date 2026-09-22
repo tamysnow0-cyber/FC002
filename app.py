@@ -31,7 +31,7 @@ with st.form("formulario_oficio"):
         "Asistencia a ruta de Transformación",
         "Cursos para operadores",
         "Asistencia a Mesas de acercamiento a la paz",
-        "Reunión",
+        "Asistencia a Reunión",
         "Dejar correspondencia",
         "Otro (escribir manualmente)"
     ]
