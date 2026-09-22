@@ -34,7 +34,7 @@ with st.form("formulario_oficio"):
     
     # --- CAJÓN DE OPCIONES PARA EL MOTIVO ---
     opciones_motivo = [
-        "Realizar trámites, levantamiento de información para dictamen técnico",
+        "Realizar trámites y levantamiento de información para dictamen técnico",
         "Elaborar constancias de operación",
         "Reunión con concesionarios",
         "Asistencia a ruta de Transformación",
