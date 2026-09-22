@@ -10,7 +10,7 @@ st.write("Llena los siguientes datos para descargar tu oficio de forma inmediata
 
 @st.cache_data
 def cargar_datos():
-    return pd.read_excel('Información del empleado.xlsx')
+    return pd.read_excel('Información del empleado_FINAL.xlsx')
 
 try:
     df = cargar_datos()
@@ -75,7 +75,7 @@ if generar:
             }
             
             try:
-                doc = DocxTemplate('OFICIO COMISIÓN 2026_2.docx')
+                doc = DocxTemplate('OFICIO COMISIÓN 2026_finalz.docx')
                 doc.render(contexto)
                 
                 bio = io.BytesIO()
